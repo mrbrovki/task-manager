@@ -1,12 +1,18 @@
 const express = require("express");
-const sequelize = require("./config/database");
-
 const path = require("path");
 const app = express();
+//custom modules
+const sequelize = require("./config/database");
+const usersRouter = require("./routes/users");
 
-const port = 9999;
+const port = 5000;
 
 app.use(express.static(path.join(__dirname, '/../client/dist')));
+app.use(express.json());
+
+//routes
+app.use("/users", usersRouter);
+
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
@@ -15,12 +21,3 @@ app.get("*", (req, res) => {
 app.listen(port, () => {
     console.log("listening on port " + port);
 });
-
-(async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-      } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-})();
