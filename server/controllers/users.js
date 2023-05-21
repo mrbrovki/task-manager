@@ -1,18 +1,24 @@
 const User = require("../models/users");
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt');
 const sequelize = require("../config/database");
+
+const saltRounds = 10;
 
 module.exports = {    
     create: async (req, res) => {
-        const body = req.body;
         await sequelize.sync();
+
+        const body = req.body;
+        const rawPassword = body.password;
+        const hash = await bcrypt.hash(rawPassword, saltRounds);
             
         const user = User.build({
             id: uuidv4(),
             firstName: body.firstName,
             lastName: body.lastName,
             email: body.email,
-            password: body.password,
+            password: hash,
         });
               
         await user.save();
