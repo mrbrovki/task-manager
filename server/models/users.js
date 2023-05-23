@@ -25,7 +25,7 @@ const User = sequelize.define('User', {
     allowNull: false,
   }
 }, {
-  tableName: "Users"
+  tableName: "Users",
 });
 
 module.exports = User;
