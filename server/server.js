@@ -17,9 +17,9 @@ const port = 5000;
 app.use(express.static(path.join(__dirname, '/../client/dist')));
 app.use(express.json());
 
-//api
-app.use("/api/v1/users", usersRouter);
-app.use("/api/v1/tasks", tasksRouter);
+//api v2
+app.use("/api/v2/users", usersRouter);
+app.use("/api/v2/tasks", tasksRouter);
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
